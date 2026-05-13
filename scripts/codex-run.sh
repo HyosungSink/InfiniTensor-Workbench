@@ -2,7 +2,9 @@
 
 set -e
 
-if [ ! -x "./node_modules/.bin/codex" ]; then
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [ ! -x "$ROOT_DIR/node_modules/.bin/codex" ]; then
   echo "ERROR: ./node_modules/.bin/codex not found or not executable."
   echo "Run this script from the directory where you installed @openai/codex."
   exit 1
@@ -15,6 +17,6 @@ if [ -z "${OPENAI_API_KEY:-}" ]; then
   export OPENAI_API_KEY
 fi
 
-export CODEX_HOME="$PWD/.codex"
+export CODEX_HOME="$ROOT_DIR/.codex"
 
-exec ./node_modules/.bin/codex "$@"
+exec "$ROOT_DIR/node_modules/.bin/codex" "$@"

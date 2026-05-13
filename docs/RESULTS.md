@@ -19,7 +19,7 @@
 命令：
 
 ```bash
-./test_ntops_50.sh
+./scripts/test-ntops.sh
 ```
 
 结果：

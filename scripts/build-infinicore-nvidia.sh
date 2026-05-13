@@ -2,17 +2,17 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$ROOT_DIR/infinitensor_env.sh"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/scripts/env.sh"
 
 if [ -z "${CUDA_HOME:-}" ]; then
     echo "ERROR: CUDA_HOME is not set and /usr/local/cuda was not found."
     exit 1
 fi
 
-"$ROOT_DIR/apply_infinicore_local_patches.sh"
+"$ROOT_DIR/scripts/apply-infinicore-local-patches.sh"
 
-cd "$ROOT_DIR/upstream/InfiniCore"
+cd "$ROOT_DIR/InfiniCore"
 
 mkdir -p /data/infinicore-logs
 xmake g --network=private --theme=plain --cachedir=/data/xmake-cache --pkg_cachedir=/data/xmake-packages --pkg_installdir=/data/xmake-packages-installed

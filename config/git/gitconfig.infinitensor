@@ -1,0 +1,8 @@
+[url "https://github"]
+	insteadOf = git://github
+
+[url "https://gitee.com/xmake-mirror/"]
+	insteadOf = https://github.com/xmake-mirror/
+
+[url "https://gitee.com/tboox/xmake-repo.git"]
+	insteadOf = https://github.com/xmake-io/xmake-repo.git

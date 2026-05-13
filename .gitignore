@@ -1,7 +1,6 @@
 .codex/
 .venv/
 .infini/
-upstream/
 node_modules/
 
 *.log

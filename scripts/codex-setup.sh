@@ -2,7 +2,8 @@
 
 set -e
 
-CODEX_DIR="$PWD/.codex"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CODEX_DIR="$ROOT_DIR/.codex"
 mkdir -p "$CODEX_DIR"
 chmod 700 "$CODEX_DIR" || true
 

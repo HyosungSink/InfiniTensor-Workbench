@@ -2,10 +2,10 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-source "$ROOT_DIR/infinitensor_env.sh"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source "$ROOT_DIR/scripts/env.sh"
 
-cd "$ROOT_DIR/upstream/InfiniCore"
+cd "$ROOT_DIR/InfiniCore"
 
 python - <<'PY'
 import infinicore
@@ -18,5 +18,5 @@ print("ntops", ntops.__file__)
 print("cpu count", infinicore.get_device_count("cpu"))
 PY
 
-taskset -c 0-63 python test/infinicore/ops/silu.py --cpu
-taskset -c 0-63 python test/infinicore/ops/add.py --cpu
+taskset -c "$INFINITENSOR_CPUSET" python test/infinicore/ops/silu.py --cpu
+taskset -c "$INFINITENSOR_CPUSET" python test/infinicore/ops/add.py --cpu

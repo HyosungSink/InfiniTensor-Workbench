@@ -1,0 +1,16 @@
+# Ubuntu 24.04 Noble apt source template using Aliyun mirror.
+# Install with:
+#   sudo cp config/apt/ubuntu.sources.aliyun /etc/apt/sources.list.d/ubuntu.sources
+#   sudo apt-get update
+
+Types: deb
+URIs: https://mirrors.aliyun.com/ubuntu/
+Suites: noble noble-updates noble-backports
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg
+
+Types: deb
+URIs: https://mirrors.aliyun.com/ubuntu/
+Suites: noble-security
+Components: main universe restricted multiverse
+Signed-By: /usr/share/keyrings/ubuntu-archive-keyring.gpg

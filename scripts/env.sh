@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 export INFINITENSOR_ROOT="$ROOT_DIR"
 export INFINI_ROOT="$ROOT_DIR/.infini"
@@ -10,7 +10,7 @@ export INFINITENSOR_CPUSET="${INFINITENSOR_CPUSET:-0-63}"
 export VIRTUAL_ENV="$ROOT_DIR/.venv"
 export PATH="$VIRTUAL_ENV/bin:$PATH"
 export LD_LIBRARY_PATH="$INFINI_ROOT/lib:${LD_LIBRARY_PATH:-}"
-export PYTHONPATH="$ROOT_DIR/upstream/ntops/src:$ROOT_DIR/upstream/InfiniCore/python:${PYTHONPATH:-}"
+export PYTHONPATH="$ROOT_DIR/ntops/src:$ROOT_DIR/InfiniCore/python:${PYTHONPATH:-}"
 
 if [ -z "${CUDA_HOME:-}" ]; then
     if [ -d /usr/local/cuda ]; then
