@@ -1,0 +1,23 @@
+{
+  "name": "hyosungsink",
+  "version": "1.0.0",
+  "description": "Local InfiniTensor/ntops/InfiniCore development workflow scripts and notes.",
+  "main": "index.js",
+  "scripts": {
+    "codex": "./run.sh",
+    "init:infinitensor": "./init_infinitensor_repos.sh",
+    "test:ntops": "./test_ntops_50.sh"
+  },
+  "keywords": [
+    "InfiniTensor",
+    "InfiniCore",
+    "ntops",
+    "CUDA"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@openai/codex": "^0.130.0"
+  }
+}

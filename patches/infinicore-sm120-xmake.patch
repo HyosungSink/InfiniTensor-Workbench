@@ -1,0 +1,32 @@
+diff --git a/xmake.lua b/xmake.lua
+index ccae79c..ab2fe4a 100644
+--- a/xmake.lua
++++ b/xmake.lua
+@@ -1,5 +1,4 @@
+ add_rules("mode.debug", "mode.release")
+-add_requires("boost", {configs = {stacktrace = true}})
+ add_requires("pybind11")
+ 
+ -- Define color codes
+@@ -70,7 +69,7 @@ end
+ option("cuda_arch")
+     set_showmenu(true)
+     set_description("Set CUDA GPU architecture (e.g. sm_90)")
+-    set_values("sm_50", "sm_60", "sm_70", "sm_75", "sm_80", "sm_86", "sm_89", "sm_90", "sm_90a")
++    set_values("sm_50", "sm_60", "sm_70", "sm_75", "sm_80", "sm_86", "sm_89", "sm_90", "sm_90a", "sm_120")
+     set_category("option")
+ option_end()
+ 
+diff --git a/xmake/nvidia.lua b/xmake/nvidia.lua
+index f0d273d..331e5fb 100644
+--- a/xmake/nvidia.lua
++++ b/xmake/nvidia.lua
+@@ -51,6 +51,8 @@ target("infiniop-nvidia")
+                     -- H100 (sm_90a): use sm_90a for cutlass 3.x
+                     if sm == 90 then
+                         target:add("cuflags", "-gencode=arch=compute_90a,code=sm_90a")
++                    elseif sm == 120 then
++                        table.insert(archs, "sm_120")
+                     elseif sm > 90 then
+                         table.insert(archs, "sm_90")
+                     end
