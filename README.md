@@ -1,13 +1,14 @@
 # InfiniTensor 本地开发环境
 
-这个项目沉淀 `/home/sink/InfiniTensor-Workbench` 下用于 InfiniTensor 九齿算子开发的本地初始化、构建、配置和测试流程。仓库保存 submodule 指针、InfiniCore 本地代码改动、环境配置模板和可复现脚本；虚拟环境、构建产物和日志仍由本机生成或复用。
+这个项目沉淀 `/home/sink/InfiniTensor-Workbench` 下用于 InfiniTensor 九齿算子开发的本地初始化、构建、配置、测试和 2026 春季赛备赛流程。仓库保存 submodule 指针、InfiniCore/ntops 本地代码改动、环境配置模板、提交模板和可复现脚本；虚拟环境、构建产物和日志仍由本机生成或复用。
 
 ## 当前状态
 
-- `ntops` 已完成 editable 安装；当前 NVIDIA L4 CUDA pytest 最新记录为 `1 failed, 839 passed, 88 skipped`，失败项为 `scaled_dot_product_attention` 的一个 CUDA 参数化用例。
+- `ntops` 已完成 editable 安装；当前 NVIDIA L4 CUDA pytest 最新记录为 `840 passed, 88 skipped`。
 - `InfiniCore` CPU 版已完成配置、构建、安装和 smoke test：`silu 72/72`，`add 102/102`。
 - `InfiniCore` NVIDIA 版已完成配置、构建、安装和 Python 扩展安装，当前目标 GPU 为 NVIDIA L4 / `sm_89`，driver `580.126.20`，CUDA Toolkit `12.8`。
 - `InfiniCore` NVIDIA smoke test 已通过：`silu 72/72`，`add 102/102`。
+- 2026 春季赛零日提交流水线、ntops 三层结构说明和算子模板库已沉淀在 `docs/`、`templates/` 和 `scripts/`。
 - 用户要求暂缓 InfiniCore NVIDIA 全量测试，因此没有继续启动全量 runner。
 
 详细记录见 [docs/RESULTS.md](docs/RESULTS.md)。
@@ -34,6 +35,22 @@ source ./scripts/env.sh
 ```
 
 脚本会通过 `nproc` 推导默认 CPU 亲和性和并发数，也可以用 `INFINITENSOR_CPUSET`、`INFINITENSOR_GPU_MAX_JOBS`、`INFINITENSOR_PYTEST_WORKERS` 覆盖。NVIDIA 构建会优先用 `nvidia-smi` 自动识别当前 GPU compute capability；当前 L4 会配置为 `sm_89`。
+
+## 2026 春季赛准备
+
+- 零日提交流程：[docs/2026_ZERO_DAY_WORKFLOW.md](docs/2026_ZERO_DAY_WORKFLOW.md)
+- ntops 三层结构：[docs/NTOPS_THREE_LAYER_GUIDE.md](docs/NTOPS_THREE_LAYER_GUIDE.md)
+- 提交模板：`templates/competition/`
+- 算子模板：`templates/ntops_operator/`
+
+常用命令：
+
+```bash
+./scripts/prepare-2026-submission.sh <GitHub ID> T1-1-X
+./scripts/scaffold-ntops-operator.sh <op_name> unary
+./scripts/scaffold-ntops-operator.sh <op_name> binary
+./scripts/scaffold-ntops-operator.sh <op_name> reduction
+```
 
 ## 中国国内源
 
