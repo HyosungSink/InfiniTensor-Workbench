@@ -14,7 +14,7 @@ if [ -z "${CUDA_ARCH:-}" ] && command -v nvidia-smi >/dev/null 2>&1; then
     CUDA_ARCH="sm_$(nvidia-smi --query-gpu=compute_cap --format=csv,noheader | head -n1 | tr -d '.')"
 fi
 
-CUDA_ARCH="${CUDA_ARCH:-sm_120}"
+CUDA_ARCH="${CUDA_ARCH:-sm_89}"
 
 "$ROOT_DIR/scripts/apply-infinicore-local-patches.sh"
 

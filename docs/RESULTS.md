@@ -1,18 +1,18 @@
 # 本地初始化、配置、构建和测试记录
 
-记录日期：2026-05-13
+记录日期：2026-05-16
 
 ## 硬件与资源策略
 
-- CPU：128 vCPU，脚本默认绑定 `0-63`，使用约 50% vCPU。
-- GPU：NVIDIA GeForce RTX 5090，compute capability 12.0，CUDA 12.8，driver 570.148.08。
+- CPU：脚本通过 `nproc` 推导默认 CPU 亲和性和并发数，可由 `INFINITENSOR_CPUSET`、`INFINITENSOR_GPU_MAX_JOBS`、`INFINITENSOR_PYTEST_WORKERS` 覆盖。
+- GPU：NVIDIA L4，compute capability 8.9（`sm_89`），driver 580.126.20，`nvidia-smi` CUDA Version 13.0，CUDA Toolkit 12.8 (`nvcc 12.8.93`)。
 - 内存：约 20 GiB，无 swap。
-- NVIDIA 构建并发：`INFINITENSOR_GPU_MAX_JOBS=8`。
+- NVIDIA 构建并发：当前环境变量记录为 `INFINITENSOR_GPU_MAX_JOBS=12`。
 
 ## 上游仓库
 
 - `ntops`：`https://github.com/InfiniTensor/ntops.git`，当前提交 `6bc90d5`。
-- `InfiniCore`：`https://github.com/InfiniTensor/InfiniCore.git`，当前提交 `90fd438`。
+- `InfiniCore`：`https://github.com/InfiniTensor/InfiniCore.git`，当前提交 `20857c2d`。
 
 ## ntops
 
@@ -24,9 +24,10 @@
 
 结果：
 
-- `840 passed, 88 skipped, 48 warnings`
-- 用时：`297.48s`
-- 日志：`/data/ntops-logs/pytest-20260513-064029-n8.log`
+- `1 failed, 839 passed, 88 skipped, 56 warnings`
+- 失败项：`tests/test_scaled_dot_product_attention.py::test_scaled_dot_product_attention[...]`
+- 用时：`403.86s`（`n12` 最新记录）
+- 日志：`/data/ntops-logs/pytest-20260514-053330-n12.log`
 
 ## InfiniCore CPU
 
@@ -52,20 +53,21 @@ Smoke test：
 配置：
 
 ```bash
-xmake f -y --cpu=y --omp=n --nv-gpu=y --cudnn=y --cuda=/usr/local/cuda --cuda_arch=sm_120 -cv
+xmake f -y --cpu=y --omp=n --nv-gpu=y --cudnn=y --cuda=/usr/local/cuda --cuda_arch=sm_89 -cv
 ```
 
 结果：
 
-- GPU full build 完成：`[100%]: build ok, spent 151.496s`
+- GPU full build 完成：`[100%]: build ok, spent 27.723s`（`j8` 记录）和 `[100%]: build ok, spent 14.294s`（`j12` 记录）。
 - 安装完成。
 - Python 扩展 `_infinicore` 构建和安装完成。
 - `pip install -e . --no-build-isolation` 完成。
 
 关键日志：
 
-- `/data/infinicore-logs/xmake-config-nvidia-sm120.log`
+- `/data/infinicore-logs/xmake-config-nvidia-sm_89.log`
 - `/data/infinicore-logs/xmake-build-nvidia-j8-include.log`
+- `/data/infinicore-logs/xmake-build-nvidia-j12-include.log`
 - `/data/infinicore-logs/xmake-install-nvidia.log`
 - `/data/infinicore-logs/xmake-build-python-nvidia.log`
 - `/data/infinicore-logs/xmake-install-python-nvidia.log`
@@ -80,7 +82,7 @@ Smoke test：
 
 - `python test/infinicore/ops/silu.py --nvidia`：`72/72 passed`
 - `python test/infinicore/ops/add.py --nvidia`：`102/102 passed`
-- 日志：`/data/infinicore-logs/test-silu-nvidia.log`、`/data/infinicore-logs/test-add-nvidia.log`
+- 日志：`/data/infinicore-logs/test-silu-nvidia.log`、`/data/infinicore-logs/test-add-nvidia.log`（2026-05-16 已重跑确认）
 
 ## 暂缓项
 

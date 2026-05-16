@@ -1,7 +1,6 @@
 [submodule "InfiniCore"]
 	path = InfiniCore
 	url = https://github.com/yunhanbb/InfiniCore.git
-	branch = hyosungsink-sm120-build
 [submodule "ntops"]
 	path = ntops
 	url = https://github.com/yunhanbb/ntops.git

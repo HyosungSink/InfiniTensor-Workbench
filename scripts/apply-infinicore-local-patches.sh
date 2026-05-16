@@ -3,8 +3,13 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-PATCH_FILE="$ROOT_DIR/patches/infinicore-sm120-xmake.patch"
+PATCH_FILE="${INFINITENSOR_INFINICORE_PATCH:-}"
 INFINICORE_DIR="$ROOT_DIR/InfiniCore"
+
+if [ -z "$PATCH_FILE" ]; then
+    echo "OK: current NVIDIA L4 / sm_89 workflow does not require a local InfiniCore patch."
+    exit 0
+fi
 
 if ! git -C "$INFINICORE_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "ERROR: InfiniCore repo not found at $INFINICORE_DIR"
