@@ -24,10 +24,11 @@
 
 结果：
 
-- `1 failed, 839 passed, 88 skipped, 56 warnings`
-- 失败项：`tests/test_scaled_dot_product_attention.py::test_scaled_dot_product_attention[...]`
-- 用时：`403.86s`（`n12` 最新记录）
-- 日志：`/data/ntops-logs/pytest-20260514-053330-n12.log`
+- `840 passed, 88 skipped, 8 warnings`
+- 已清理历史失败项：`tests/test_scaled_dot_product_attention.py::test_scaled_dot_product_attention[...]`
+- 修复点：当 attention mask 将整行全部屏蔽时，九齿 SDPA 实现现在与 PyTorch reference 一样返回 0，避免 online softmax 产生 `NaN`。
+- 用时：`258.68s`（`n12` 最新记录）
+- 日志：`/data/ntops-logs/pytest-20260516-053342-n12.log`
 
 ## InfiniCore CPU
 
