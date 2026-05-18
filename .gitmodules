@@ -4,4 +4,4 @@
 [submodule "ntops"]
 	path = ntops
 	url = https://github.com/HyosungSink/ntops.git
-	branch = master
+	branch = ntops2026
