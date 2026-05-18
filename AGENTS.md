@@ -24,7 +24,7 @@
 - `ntops/`: 主要开发仓库，包含九齿 kernel、`ntops.torch` wrapper、注册入口和测试。
 - `InfiniCore/`: Python 接入仓库，完成 `ntops` 算子后添加或更新 `use_ntops` 路径和对应测试。
 - `2026_Comp_Guideline.md`: 赛题清单、提交格式和外部参考链接。
-- `scripts/`: 环境初始化、测试和比赛分支准备脚本。
+- `scripts/`: 环境初始化和测试脚本。
 - `templates/`: 比赛材料模板；代码不采用模板式开发。
 
 开始前先确认主仓和子仓状态：
@@ -125,6 +125,14 @@ ntops/src/ntops/torch/__init__.py
 - 简单算子尽量支持 `out=`；暂不支持的模式要用清晰断言或错误信息说明。
 - 只有内核排布确实需要占位输入时，才使用 meta tensor 表示关闭的可选输入。
 - 不要为了单个样例硬编码 shape、dtype、axis、参数组合或特定值域。
+- 性能优化可以按 dtype、布局类别、广播模式或固定九齿配置分支，但分支必须对应可解释的
+  泛化语义，不要只为了命中现有测试样例而特化某个具体 shape、方阵尺寸、样例值域或
+  性能用例名称。
+- 新增快路径必须保留通用 fallback；快路径命中条件若只覆盖窄模式，应确认不会改变
+  PyTorch 可观察语义，例如 dtype、shape、stride、`out=` resize、广播和非连续布局行为。
+- 九齿评测会关闭自动调优。`ntops/src/ntops/kernels/` 中各算子的 `premake()` 应提供确定的
+  `block_size` 默认值，wrapper 调用 `_cached_make` 时应显式传入参与评测的
+  `block_size`、必要的 `num_warps` / `num_stages`，并设置 `max_num_configs=1`。
 - 改动范围集中在当前赛题包相关算子、注册入口、测试、InfiniCore 接入和比赛材料。
 
 ## ntops 测试
@@ -137,9 +145,11 @@ cd ntops
 pytest tests/test_<op>.py -q
 ```
 
-一个赛题包完成后，运行该包 5 个算子的定点测试。必要时运行完整 `ntops` 测试：
+一个赛题包完成后，运行该包 5 个算子的定点测试。必要时在主仓根目录运行完整
+`ntops` 测试：
 
 ```bash
+cd ..
 ./scripts/test-ntops.sh
 ```
 
@@ -150,6 +160,19 @@ pytest tests/test_<op>.py -q
 - shape 操作类：视图语义、copy 语义、非连续输入和边界维度。
 - 随机或含 mask 的算子：固定随机种子，写清和 PyTorch 行为的对齐范围。
 - 浮点比较使用合适的 `rtol` / `atol`；布尔和整数结果优先用精确比较。
+
+性能测试和评优：
+
+- 每个算子的总体性能应不低于 PyTorch；单个性能 case 的 PyTorch/ntops 速度比不得低于
+  `0.9x`，其中速度比定义为 `torch_ms / ntops_ms`。若用户或赛题要求更具体的
+  case 数量，以用户或赛题要求为准。
+- 性能测试必须覆盖能暴露当前实现慢点的 case，例如中小规模、广播、非连续布局、`out=`、
+  不同 dtype 和边界值域。发现慢点后应保留这些 case，并优化实现直到达标；不要通过删除、
+  替换、跳过、放宽阈值或只保留大 contiguous case 来制造通过。
+- 新增性能 case 应和真实语义类别绑定，而不是只服务某个临时实现。若某个 case 目前
+  无法达标，应在结果中如实说明瓶颈和剩余风险，而不是降低测试强度。
+- 性能优化后要复跑正确性测试，尤其是类型提升、广播、非连续输入、`out=` 和特殊值；
+  性能快路径不得牺牲 correctness 覆盖。
 
 ## InfiniCore 接入
 
@@ -173,11 +196,10 @@ InfiniCore/python/infinicore/nn/functional/silu.py
 source ./scripts/dev-env.sh
 cd InfiniCore
 python test/infinicore/ops/<op>.py --nvidia
-python test/infinicore/ops/<op>.py --cpu
 ```
 
-若算子只接入 GPU `use_ntops` 路径，CPU 测试应明确保持 unsupported 或原有行为；
-不要为了 CPU 测试新增 native 实现。
+GPU `use_ntops` 接入至少运行 `--nvidia`。若算子还声明 CPU 行为，可运行 `--cpu`
+确认其保持 unsupported 或原有行为；不要为了 CPU 测试新增 native 实现。
 
 ## 本地环境要点
 
