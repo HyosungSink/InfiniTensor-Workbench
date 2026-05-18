@@ -4,26 +4,24 @@
 
 ## 环境
 
-- `env.sh`：设置共享环境变量、CUDA 探测、缓存目录、Python 路径，以及由 `nproc` 推导的 CPU 亲和性和并发默认值。
-- `configure-china-mirrors.sh`：应用版本化的 apt、pip、xmake 和 Git 国内镜像配置。
-- `init-repos.sh`：初始化子模块，创建 `.venv`，并安装 editable Python 包。
-
-## InfiniCore
-
-- `apply-infinicore-local-patches.sh`：当前 L4 / `sm_89` 流程默认不修改子模块；只有在 `INFINITENSOR_INFINICORE_PATCH` 指向显式补丁时才应用。
-- `build-infinicore-cpu.sh`：执行 CPU 版构建、安装、Python 扩展构建和 editable 安装。
-- `build-infinicore-nvidia.sh`：执行 CUDA / 当前 L4 `sm_89` 的 NVIDIA 版构建、安装、Python 扩展构建和 editable 安装。
-- `test-infinicore-cpu-smoke.sh`：运行 `silu` 和 `add` 的 CPU smoke test。
-- `test-infinicore-nvidia-smoke.sh`：运行 `silu` 和 `add` 的 NVIDIA smoke test。
+- `dev-env.sh`：统一开发环境入口。
+  - `source ./scripts/dev-env.sh`：设置共享环境变量、CUDA 探测、缓存目录、Python 路径，以及由 `nproc` 推导的 CPU 亲和性和并发默认值。
+  - `./scripts/dev-env.sh init`：初始化子模块，创建 `.venv`，并安装 editable Python 包。
+  - `./scripts/dev-env.sh china-mirrors`：应用版本化的 apt、pip 和 Git 国内镜像配置。
+  - `./scripts/dev-env.sh status`：检查当前 shell、`.venv` 和 Python 包是否已配置。
 
 ## ntops
 
 - `test-ntops.sh`：使用 `INFINITENSOR_PYTEST_WORKERS` 和 CPU 亲和性运行 `ntops` 的 CUDA pytest。
-- `prepare-2026-submission.sh`：在 `ntops` 中创建或切换比赛分支，并生成 `HONOR_CODE.md`、`REFERENCE.md` 和 PR 描述骨架。
-- `scaffold-ntops-operator.sh`：基于本地模板生成 `ntops` 三层算子骨架。
+- 代码不采用模板式开发；新增算子时按语义手写三层文件，并用 `AGENTS-2.md` 中的文件清单检查。
 
-## Codex
+## InfiniCore Python 接入
 
-- `codex-setup.sh`：在 `.codex/` 下写入本地 Codex 配置。
-- `codex-run.sh`：使用 `CODEX_HOME=.codex` 启动本地 Codex CLI。
+2026 春季赛主线是 `ntops` / 九齿算子开发。需要验证 InfiniCore 接入时，应在
+`InfiniCore` 中按具体算子运行 Python 级 `use_ntops` 测试，例如：
 
+```bash
+source ./scripts/dev-env.sh
+cd InfiniCore
+python test/infinicore/ops/<op>.py --nvidia
+```

@@ -4,14 +4,9 @@
   "description": "Local InfiniTensor/ntops/InfiniCore development workflow scripts and notes.",
   "main": "index.js",
   "scripts": {
-    "codex": "./scripts/codex-run.sh",
-    "config:china-mirrors": "./scripts/configure-china-mirrors.sh",
-    "init:infinitensor": "./scripts/init-repos.sh",
-    "build:infinicore:cpu": "./scripts/build-infinicore-cpu.sh",
-    "build:infinicore:nvidia": "./scripts/build-infinicore-nvidia.sh",
-    "test:ntops": "./scripts/test-ntops.sh",
-    "test:infinicore:cpu": "./scripts/test-infinicore-cpu-smoke.sh",
-    "test:infinicore:nvidia": "./scripts/test-infinicore-nvidia-smoke.sh"
+    "config:china-mirrors": "./scripts/dev-env.sh china-mirrors",
+    "init:infinitensor": "./scripts/dev-env.sh init",
+    "test:ntops": "./scripts/test-ntops.sh"
   },
   "keywords": [
     "InfiniTensor",
