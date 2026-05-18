@@ -1,7 +1,7 @@
 [submodule "InfiniCore"]
 	path = InfiniCore
-	url = https://github.com/yunhanbb/InfiniCore.git
+	url = https://github.com/HyosungSink/InfiniCore.git
 [submodule "ntops"]
 	path = ntops
-	url = https://github.com/yunhanbb/ntops.git
+	url = https://github.com/HyosungSink/ntops.git
 	branch = master
