@@ -1,6 +1,39 @@
 # 2026 春季启元人工智能大赛比赛要求：九齿算子开发（1-1-X 系列）
 
-九齿算子开发系列共提供 50 个算子，共打包成 **10 个赛题**。选手可自由选择赛题数量，但每个赛题报名有上限。具体规则将会在之后补充。
+根据已发布的 `2026 春季启元人工智能大赛赛题.docx`，九齿开发赛道包含
+`1-1 九齿算子开发（50 个）`。本赛道需使用九齿开发算子，九齿开发的算子可以轻松跨
+GPU 平台。50 个算子共打包成 **10 个赛题**，每个赛题包含 5 个算子。选手可自由选择
+赛题数量，但每个赛题报名有上限。
+
+## 赛题清单
+
+| 赛题号 | 算子 |
+| --- | --- |
+| `T1-1-1` | `rad2deg`, `copysign`, `lcm`, `nextafter`, `lgamma` |
+| `T1-1-2` | `eye`, `flatten`, `chunk`, `unbind`, `repeat` |
+| `T1-1-3` | `tril`, `triu`, `triu_indices`, `trace`, `outer` |
+| `T1-1-4` | `roll`, `column_stack`, `mode`, `meshgrid`, `cartesian_prod` |
+| `T1-1-5` | `linspace`, `logspace`, `nan_to_num`, `logit`, `trapezoid` |
+| `T1-1-6` | `tensor_split`, `unflatten`, `moveaxis`, `channel_shuffle`, `im2col` |
+| `T1-1-7` | `feature_alpha_dropout`, `pixel_unshuffle`, `mse_loss`, `flip`, `fliplr` |
+| `T1-1-8` | `kl_div`, `combinations`, `narrow`, `corrcoef`, `count_nonzero` |
+| `T1-1-9` | `scatter_add`, `multilabel_margin_loss`, `frac`, `fractional_max_pool2d`, `fractional_max_pool3d` |
+| `T1-1-10` | `gumbel_softmax`, `slice_scatter`, `slogdet`, `heaviside`, `hsplit` |
+
+> 以上清单来自赛题 docx 内嵌的电子表格。
+
+## 赛道总览
+
+已发布赛题文档同时列出以下赛道：
+
+- 一、九齿开发赛道
+  - `1-1 九齿算子开发（50 个）`
+  - `1-2 九齿编译优化`
+- 二、训推引擎赛道
+  - `2-1 推理引擎`
+  - `2-2 训练系统`
+- 三、九齿 `.skill` 创新挑战赛道
+- 四、上海人工智能实验室合作赛道：国产迁移赛道
 
 ### 优胜规则
 
